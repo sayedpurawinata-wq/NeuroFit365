@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NeuroFit 365 — Latihan Otak & Neuroplastisitas</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="NeuroFit 365">
+<meta name="theme-color" content="#00b894">
+<link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -102,6 +107,21 @@ button{touch-action:manipulation;cursor:pointer}
 .sub-card .steps li.done{opacity:.5;text-decoration:line-through}
 .sub-card .ex-note{width:100%;padding:6px 10px;border-radius:6px;border:1px solid var(--glass-border);background:var(--card-bg);color:var(--text);font-size:0.78em;resize:none;min-height:36px;margin:6px 0;font-family:inherit}
 .sub-card .ex-note:focus{outline:none;border-color:var(--accent-brain)}
+.week-preview{margin-top:14px}
+.wp-card{padding:14px 16px;margin-bottom:8px;background:var(--input-bg);border-radius:12px;border:1px solid var(--glass-border);transition:all .2s}
+.wp-card.today{border-color:var(--accent-brain);border-width:1.5px}
+.wp-card.done-wp{opacity:.6}
+.wp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.wp-label{font-size:0.82em;font-weight:700}
+.wp-label.today-label{color:var(--accent-brain)}
+.wp-meta{font-size:0.7em;color:var(--text2)}
+.wp-ex-list{display:flex;flex-wrap:wrap;gap:4px 10px;margin:4px 0}
+.wp-ex-item{font-size:0.78em;display:flex;align-items:center;gap:4px;padding:2px 0}
+.wp-dot{display:inline-block;width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.wp-dot.brain{background:var(--accent-brain)}
+.wp-dot.ed{background:var(--accent-ed)}
+.wp-progress{font-size:0.7em;color:var(--text2);margin-top:4px}
+
 .timer-label{font-size:0.75em;color:var(--text2);margin:4px 0 2px;display:flex;align-items:center;gap:6px}
 .timer-label.active{color:var(--accent-brain);font-weight:600}
 
@@ -782,6 +802,10 @@ function render(){
 
   html += `<div class="ref" style="font-size:0.78em;color:var(--text2);margin-top:10px;padding:8px 10px;background:var(--input-bg);border-radius:8px;border-left:3px solid var(--text3)">📄 Level ${level} · Durasi exercise naik +${(level-1)*5} menit dari base. 🧠 Otak + ❤️‍🔥 ED dalam satu sesi.</div>`;
   html += `</div>`;
+
+  // Week preview
+  html += renderWeekPreview();
+
   document.getElementById('todaySection').innerHTML = html;
 
   if (!state.timerRunning){
@@ -794,6 +818,36 @@ function render(){
   renderStats();
   renderJournal();
   updateNav();
+}
+
+function renderWeekPreview(){
+  const today = dayIndex();
+  let html = `<div class="week-preview glass-card"><h2 style="font-size:.95em;font-weight:600;margin-bottom:10px">📋 Preview 7 Hari</h2>`;
+  for (let off = 0; off < 7; off++){
+    const day = today + off;
+    const weekday = DAYS[new Date(Date.now() + off * 86400000).getDay()];
+    const level = getLevel(day);
+    const exercises = getCombinedExercises(day);
+    const bKey = getDayKey('brain', day), eKey = getDayKey('ed', day);
+    const bD = state.brain[bKey]||{}, eD = state.ed[eKey]||{};
+    let done = 0;
+    exercises.forEach(ex => { if ((ex.module==='brain'?bD[ex.id]:eD[ex.id])?.completed) done++; });
+    const isToday = off === 0;
+    const total = exercises.length;
+    const label = isToday ? '📍 Hari Ini' : off === 1 ? '📍 Besok' : weekday;
+    const cls = `wp-card${isToday?' today':''}${done===total&&total>0?' done-wp':''}`;
+    html += `<div class="${cls}">
+      <div class="wp-header"><span class="wp-label${isToday?' today-label':''}">${label}</span><span class="wp-meta">Hari #${day+1} · Level ${level}</span></div>
+      <div class="wp-ex-list">`;
+    exercises.forEach(ex => {
+      const exD = ex.module==='brain'?bD[ex.id]:eD[ex.id];
+      const mark = exD?.completed ? '✅' : '';
+      html += `<span class="wp-ex-item"><span class="wp-dot ${ex.module}"></span>${mark}${ex.emoji} ${ex.name} (${scaleDur(ex.dur,level)}')</span>`;
+    });
+    html += `</div><div class="wp-progress">${done}/${total} selesai</div></div>`;
+  }
+  html += '</div>';
+  return html;
 }
 
 function saveNote(exIdx, val){
@@ -1212,7 +1266,16 @@ function init(){
   showToast('🧠 NeuroFit 365 siap! Semangat latihan!');
 }
 
-document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', init);
+
+  // Register service worker for PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').then(r => {
+        console.log('SW registered');
+      }).catch(() => {});
+    });
+  }
 </script>
 </body>
 </html>
