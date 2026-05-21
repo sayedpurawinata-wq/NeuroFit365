@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroFit 365 — Latihan Otak & Neuroplastisitas</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f0f2f5;
+  --glass: rgba(255,255,255,0.55);
+  --glass-border: rgba(255,255,255,0.35);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.06);
+  --text: #1a1a2e;
+  --text2: #555;
+  --text3: #999;
+  --accent-brain: #00b894;
+  --accent-brain2: #00d2a0;
+  --accent-ed: #e17055;
+  --accent-ed2: #f08a72;
+  --card-bg: rgba(255,255,255,0.65);
+  --input-bg: rgba(255,255,255,0.5);
+  --hover: rgba(0,0,0,0.04);
+  --danger: #d63031;
+  --success: #00b894;
+  --warning: #fdcb6e;
+  --modal-overlay: rgba(0,0,0,0.5);
+}
+[data-theme="dark"] {
+  --bg: #0f0f1a;
+  --glass: rgba(30,30,50,0.7);
+  --glass-border: rgba(255,255,255,0.08);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  --text: #e8e8f0;
+  --text2: #999;
+  --text3: #555;
+  --card-bg: rgba(30,30,50,0.65);
+  --input-bg: rgba(255,255,255,0.08);
+  --hover: rgba(255,255,255,0.04);
+  --modal-overlay: rgba(0,0,0,0.7);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;transition:background .3s,color .3s;min-height:100vh}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--text3);border-radius:4px}
+.glass{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-border);box-shadow:var(--glass-shadow);border-radius:16px}
+.glass-card{background:var(--card-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-border);box-shadow:var(--glass-shadow);border-radius:16px;padding:20px;transition:all .3s}
+.glass-card:hover{box-shadow:0 12px 40px rgba(0,0,0,0.1)}
+*:focus-visible{outline:2px solid var(--accent-brain);outline-offset:2px;border-radius:4px}
+button{touch-action:manipulation;cursor:pointer}
+.nav-item:focus-visible{outline-offset:-2px}
+
+.topbar{position:sticky;top:0;z-index:100;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);gap:8px}
+.topbar h1{font-size:1.15em;font-weight:700;background:linear-gradient(135deg,var(--accent-brain),var(--accent-ed));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
+.topbar-actions{display:flex;gap:6px;align-items:center}
+.topbar-btn{background:var(--card-bg);border:1px solid var(--glass-border);color:var(--text);width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1em;transition:all .2s}
+.topbar-btn:hover{background:var(--hover);transform:scale(1.05)}
+
+.module-tag{display:inline-block;font-size:0.65em;padding:2px 8px;border-radius:6px;font-weight:700;margin-left:6px;letter-spacing:.3px;text-transform:uppercase}
+.module-tag.brain{background:var(--accent-brain);color:#fff}
+.module-tag.ed{background:var(--accent-ed);color:#fff}
+
+.container{max-width:640px;margin:0 auto;padding:12px 16px 80px}
+
+.dashboard{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.db-card{text-align:center;padding:14px 10px}
+.db-card .num{font-size:1.6em;font-weight:800;line-height:1.2}
+.db-card .lbl{font-size:0.75em;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.db-ring{position:relative;width:72px;height:72px;margin:0 auto}
+.db-ring svg{width:72px;height:72px;transform:rotate(-90deg)}
+.db-ring circle{fill:none;stroke-width:6;stroke:var(--text3);opacity:.2}
+.db-ring circle.prog{stroke-linecap:round;transition:stroke-dashoffset .6s ease}
+.db-ring .ctr{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.85em;font-weight:700}
+.prog-brain circle.prog{stroke:var(--accent-brain)}
+.prog-ed circle.prog{stroke:var(--accent-ed)}
+
+.day-section{margin-bottom:14px}
+.day-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.day-header h2{font-size:1em;font-weight:600}
+.day-header .day-num{font-size:0.8em;color:var(--text2);background:var(--card-bg);padding:2px 10px;border-radius:8px}
+.day-progress{display:flex;align-items:center;gap:6px;font-size:0.8em;color:var(--text2);margin-bottom:10px}
+.day-progress .bar-track{flex:1;height:6px;background:var(--input-bg);border-radius:3px;overflow:hidden}
+.day-progress .bar-fill{height:100%;border-radius:3px;transition:width .4s;background:linear-gradient(90deg,var(--success),var(--accent-brain))}
+
+.sub-card{margin-bottom:10px;padding:16px;border:1px solid var(--glass-border);border-radius:12px;background:var(--input-bg);transition:all .2s}
+.sub-card:last-child{margin-bottom:0}
+.sub-card.done{opacity:.65}
+.sub-card h4{font-size:0.95em;font-weight:700;margin-bottom:2px}
+.sub-card .meta{font-size:0.75em;color:var(--text2);margin-bottom:8px}
+.sub-card .actions{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.sub-card .actions button{flex:1;min-width:60px;padding:8px 10px;border:none;border-radius:8px;font-size:0.78em;font-weight:600;transition:all .2s;color:var(--text)}
+.sub-card .actions .tbtn-act{background:var(--card-bg);border:1px solid var(--glass-border)}
+.sub-card .actions .tbtn-act.active-timer{background:var(--accent-brain);color:#fff}
+.sub-card .actions .info-btn{background:var(--card-bg);border:1px solid var(--glass-border)}
+.sub-card .actions .done-btn{background:var(--success);color:#fff;opacity:.5}
+.sub-card .actions .done-btn.can-do{opacity:1}
+.sub-card .actions .done-btn:active{transform:scale(.95)}
+.sub-card .steps{margin:6px 0 0;list-style:none;font-size:0.78em}
+.sub-card .steps li{display:flex;align-items:flex-start;gap:8px;padding:4px 0;cursor:pointer;color:var(--text2)}
+.sub-card .steps li .cb{width:16px;height:16px;border-radius:4px;border:2px solid var(--text3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.6em;transition:all .2s;margin-top:1px}
+.sub-card .steps li.done .cb{background:var(--success);border-color:var(--success);color:#fff}
+.sub-card .steps li.done{opacity:.5;text-decoration:line-through}
+.sub-card .ex-note{width:100%;padding:6px 10px;border-radius:6px;border:1px solid var(--glass-border);background:var(--card-bg);color:var(--text);font-size:0.78em;resize:none;min-height:36px;margin:6px 0;font-family:inherit}
+.sub-card .ex-note:focus{outline:none;border-color:var(--accent-brain)}
+.timer-label{font-size:0.75em;color:var(--text2);margin:4px 0 2px;display:flex;align-items:center;gap:6px}
+.timer-label.active{color:var(--accent-brain);font-weight:600}
+
+.cal-wrap{margin:14px 0}
+.cal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(18px,1fr));gap:3px;margin-top:8px}
+.cal-day{width:100%;aspect-ratio:1;border-radius:4px;font-size:0.6em;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;color:transparent;min-height:18px;min-width:18px}
+.cal-day.done{background:var(--accent-brain);color:#fff}
+.cal-day.partial{background:var(--warning);opacity:.7;color:#fff}
+.cal-day.miss{background:var(--danger);opacity:.5}
+.cal-day.today{outline:2px solid var(--text);outline-offset:1px}
+.cal-day.empty{background:transparent;cursor:default}
+.cal-legend{display:flex;gap:12px;margin-top:6px;font-size:0.7em;color:var(--text2);align-items:center;flex-wrap:wrap}
+.cal-legend span{display:flex;align-items:center;gap:4px}
+.cal-legend .sq{width:12px;height:12px;border-radius:2px}
+
+.stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+.stat-item{text-align:center;padding:10px 4px}
+.stat-item .snum{font-size:1.2em;font-weight:700}
+.stat-item .slbl{font-size:0.65em;color:var(--text2);text-transform:uppercase;letter-spacing:.3px;margin-top:1px}
+.chart-bar{display:flex;gap:4px;align-items:flex-end;height:60px;margin:10px 0}
+.chart-bar .bar{flex:1;border-radius:3px 3px 0 0;min-height:4px;transition:height .4s;position:relative}
+.chart-bar .bar.brain-bar{background:var(--accent-brain)}
+.chart-bar .bar.ed-bar{background:var(--accent-ed)}
+.chart-bar .bar .bl{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:0.55em;color:var(--text3);white-space:nowrap}
+
+.journal-list{max-height:200px;overflow-y:auto;margin:6px 0}
+.journal-item{padding:8px 10px;border-bottom:1px solid var(--glass-border);font-size:0.82em}
+.journal-item:last-child{border:none}
+.journal-item .jdate{font-size:0.75em;color:var(--text3)}
+.journal-item .jnote{color:var(--text2);margin-top:2px}
+
+.setting-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--glass-border)}
+.setting-item:last-child{border:none}
+.setting-item label{font-size:0.88em;font-weight:500}
+.setting-item input[type="time"],.setting-item input[type="text"]{background:var(--input-bg);border:1px solid var(--glass-border);border-radius:8px;padding:6px 10px;color:var(--text);font-size:0.85em;font-family:inherit}
+.setting-item input:focus{outline:none;border-color:var(--accent-brain)}
+.toggle-track{width:42px;height:24px;background:var(--text3);border-radius:12px;cursor:pointer;position:relative;transition:all .2s;flex-shrink:0}
+.toggle-track.on{background:var(--accent-brain)}
+.toggle-track::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:all .2s}
+.toggle-track.on::after{left:20px}
+.btn-danger{background:var(--danger);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-weight:600;font-size:0.85em}
+.hidden{display:none!important}
+.fade-in{animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:12px 24px;border-radius:12px;font-size:0.85em;z-index:999;opacity:0;transition:all .4s;pointer-events:none;max-width:90%;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.toast.show{opacity:1}
+.toast.success{background:var(--accent-brain)}
+
+.empty-state{text-align:center;padding:40px 20px;color:var(--text2)}
+.empty-state .icon{font-size:3em;margin-bottom:10px}
+
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--glass-border);padding:6px 0 env(safe-area-inset-bottom,6px) 0}
+.nav-item{flex:1;text-align:center;padding:6px 0;cursor:pointer;color:var(--text3);font-size:0.65em;transition:all .2s;border:none;background:none;font-weight:500;text-transform:uppercase;letter-spacing:.3px}
+.nav-item .ni{font-size:1.3em;display:block;margin-bottom:1px}
+.nav-item.active{color:var(--accent-brain)}
+.nav-item.active.ed-active{color:var(--accent-ed)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:200;background:var(--modal-overlay);display:flex;align-items:flex-end;justify-content:center;padding:0;animation:modalIn .25s ease}
+.modal-overlay.closing{animation:modalOut .2s ease}
+@keyframes modalIn{from{opacity:0}to{opacity:1}}
+@keyframes modalOut{from{opacity:1}to{opacity:0}}
+.modal-content{background:var(--card-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:20px 20px 0 0;max-width:640px;width:100%;max-height:85vh;overflow-y:auto;padding:24px 20px env(safe-area-inset-bottom,24px);animation:slideUp .3s ease;border-top:1px solid var(--glass-border)}
+.modal-overlay.closing .modal-content{animation:slideDown .2s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes slideDown{from{transform:translateY(0)}to{transform:translateY(100%)}}
+.modal-close{position:sticky;top:0;float:right;background:var(--input-bg);border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:1em;color:var(--text);transition:all .2s}
+.modal-close:hover{background:var(--hover);transform:scale(1.1)}
+.modal-content h3{font-size:1.15em;font-weight:700;margin-bottom:12px;padding-right:40px}
+.modal-section{margin-bottom:16px}
+.modal-section h4{font-size:0.85em;font-weight:700;color:var(--accent-brain);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.modal-section p,.modal-section li{font-size:0.85em;color:var(--text2);line-height:1.6}
+.modal-section ul{list-style:none}
+.modal-section ul li{padding:2px 0;padding-left:16px;position:relative}
+.modal-section ul li::before{content:'•';position:absolute;left:4px;color:var(--accent-brain)}
+.modal-video{margin:6px 0;display:block}
+.modal-video a{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--input-bg);border-radius:8px;text-decoration:none;color:var(--text);font-size:0.82em;transition:all .2s;margin-bottom:4px}
+.modal-video a:hover{background:var(--hover);transform:translateX(2px)}
+.modal-ref{font-size:0.78em;color:var(--text3);padding:8px 10px;background:var(--input-bg);border-radius:8px;border-left:3px solid var(--accent-brain);margin-top:6px;line-height:1.5}
+
+@media(max-width:480px){
+  .dashboard{grid-template-columns:1fr 1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .cal-grid{grid-template-columns:repeat(auto-fill,minmax(16px,1fr));gap:2px}
+  .topbar h1{font-size:1em}
+  .sub-card .actions button{font-size:0.72em;padding:6px 8px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>NeuroFit 365</h1>
+  <div class="topbar-actions">
+    <button class="topbar-btn" onclick="toggleTheme()" aria-label="Ganti tema gelap/terang">🌙</button>
+    <button class="topbar-btn" onclick="showSection('settings')" aria-label="Pengaturan">⚙️</button>
+  </div>
+</div>
+
+<div class="container" id="app">
+
+  <div class="dashboard" id="dashboard">
+    <div class="glass-card db-card">
+      <div class="db-ring prog-brain">
+        <svg><circle r="30" cx="36" cy="36"/><circle class="prog" r="30" cx="36" cy="36" stroke-dasharray="188.5" stroke-dashoffset="188.5"/></svg>
+        <div class="ctr"><span id="brainPct">0%</span></div>
+      </div>
+      <div class="lbl">Otak</div>
+    </div>
+    <div class="glass-card db-card">
+      <div class="db-ring prog-ed">
+        <svg><circle r="30" cx="36" cy="36"/><circle class="prog" r="30" cx="36" cy="36" stroke-dasharray="188.5" stroke-dashoffset="188.5"/></svg>
+        <div class="ctr"><span id="edPct">0%</span></div>
+      </div>
+      <div class="lbl">ED</div>
+    </div>
+    <div class="glass-card db-card">
+      <div class="num" id="streakNum">0</div>
+      <div class="lbl">🔥 Streak</div>
+    </div>
+    <div class="glass-card db-card">
+      <div class="num" id="dayNum">Hari ke-1</div>
+      <div class="lbl" id="dayLabel">dari 365</div>
+    </div>
+  </div>
+
+  <div id="todaySection"></div>
+
+  <div class="glass-card" id="calSection">
+    <h2 style="font-size:.95em;font-weight:600;margin-bottom:6px">📅 Progress 365 Hari</h2>
+    <div class="cal-legend">
+      <span><span class="sq" style="background:var(--accent-brain)"></span> Selesai</span>
+      <span><span class="sq" style="background:var(--warning)"></span> Sebagian</span>
+      <span><span class="sq" style="background:var(--danger);opacity:.5"></span> Terlewat</span>
+      <span><span class="sq" style="background:var(--text3);opacity:.1"></span> Belum</span>
+    </div>
+    <div class="cal-wrap" id="calWrap"></div>
+  </div>
+
+  <div class="glass-card" id="statsSection" style="margin-top:14px">
+    <h2 style="font-size:.95em;font-weight:600;margin-bottom:6px">📊 Statistik</h2>
+    <div class="stats-grid" id="statsGrid"></div>
+    <div class="chart-bar" id="chartBar"></div>
+  </div>
+
+  <div class="glass-card" id="journalSection" style="margin-top:14px">
+    <h2 style="font-size:.95em;font-weight:600;margin-bottom:6px">📝 Jurnal Latihan</h2>
+    <div class="journal-list" id="journalList"><div class="empty-state">Belum ada catatan</div></div>
+  </div>
+
+  <div class="glass-card hidden" id="settingsSection">
+    <h2 style="font-size:.95em;font-weight:600;margin-bottom:12px">⚙️ Pengaturan</h2>
+    <div class="setting-item">
+      <label>Nama Anda</label>
+      <input type="text" id="userName" placeholder="User" onchange="saveSettings()" style="width:140px">
+    </div>
+    <div class="setting-item">
+      <label>Pengingat harian</label>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="toggle-track" id="reminderToggle" onclick="toggleReminder()"></div>
+        <input type="time" id="reminderTime" value="08:00" onchange="saveSettings()">
+      </div>
+    </div>
+    <div class="setting-item">
+      <label>Notifikasi browser</label>
+      <button class="topbar-btn" style="width:auto;padding:4px 14px;font-size:0.75em" onclick="requestNotif()" aria-label="Izinkan notifikasi browser">IZINKAN</button>
+    </div>
+    <div class="setting-item">
+      <label>Reset semua data</label>
+      <button class="btn-danger" onclick="resetData()" aria-label="Hapus semua data">HAPUS</button>
+    </div>
+    <div class="setting-item">
+      <label>Backup data</label>
+      <button class="topbar-btn" style="width:auto;padding:4px 14px;font-size:0.75em" onclick="exportData()">DOWNLOAD JSON</button>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <button class="nav-item active" data-nav="today" onclick="showSection('today')" aria-label="Latihan hari ini"><span class="ni">🏋️</span>Latihan</button>
+  <button class="nav-item" data-nav="cal" onclick="showSection('cal')" aria-label="Kalender progress"><span class="ni">📅</span>Kalender</button>
+  <button class="nav-item" data-nav="stats" onclick="showSection('stats')" aria-label="Statistik"><span class="ni">📊</span>Statistik</button>
+  <button class="nav-item" data-nav="journal" onclick="showSection('journal')" aria-label="Jurnal latihan"><span class="ni">📝</span>Jurnal</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- MODAL INFO -->
+<div class="modal-overlay hidden" id="infoModal">
+  <div class="modal-content" id="infoModalContent"></div>
+</div>
+
+<script>
+const DAYS = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+
+function scaleDur(base, level){
+  return base + (level-1) * 5;
+}
+
+// ============================
+// BRAIN SCHEDULE (7 hari × 2-3 exercise)
+// ============================
+const brainSchedule = [
+  [ // 0: Senin — FINGER Protocol + Dual N-Back
+    { id:'ex_0', cat:'Multi-Domain', emoji:'🌿', name:'FINGER Protocol (Jalan + Kognitif)', dur:45,
+      desc:'Kombinasi jalan cepat 30 menit + latihan kognitif 15 menit + catat asupan nutrisi.',
+      ref:'Ngandu et al. 2015, The Lancet — Multi-domain intervention memperlambat penurunan kognitif 25%. DOI: 10.1016/S0140-6736(15)60461-5',
+      steps:['Jalan cepat 30 menit (denyut naik)','Latihan kognitif 15 menit (aplikasi/soal)','Catat 1 porsi sayur/buah yang dimakan'],
+      explanation:'FINGER (Finnish Geriatric Intervention Study to Prevent Cognitive Impairment and Disability) adalah studi multidomain pertama yang membuktikan bahwa kombinasi exercise aerobik, diet, latihan kognitif, dan monitoring faktor risiko bisa memperlambat penurunan kognitif hingga 25%. Protokol ini menggabungkan aktivitas fisik aerobik dengan latihan kognitif terstruktur.',
+      benefits:['Memperlambat penurunan kognitif 25% (Ngandu 2015)','Meningkatkan fungsi eksekutif dan kecepatan prosesing','Mengombinasikan manfaat fisik + kognitif dalam satu sesi'],
+      tips:['Gunakan aplikasi brain training untuk sesi kognitif','Pilih rute jalan yang bervariasi untuk stimulasi tambahan','Lakukan di pagi hari untuk konsistensi lebih baik'],
+      videoLinks:[
+        { title:'FINGER Study Explained (English)', url:'https://www.youtube.com/results?search_query=FINGER+study+cognitive+training' },
+        { title:'Latihan Kognitif untuk Pemula', url:'https://www.youtube.com/results?search_query=latihan+kognitif+otak' }
+      ]},
+    { id:'ex_1', cat:'Working Memory', emoji:'🧠', name:'Dual N-Back Training', dur:15,
+      desc:'Latihan working memory adaptif yang meningkatkan BDNF dan fluid intelligence.',
+      ref:'Nicastri et al. 2022, Alzheimer\'s & Dementia — Cognitive training meningkatkan serum BDNF. Soveri et al. 2017, Psychon Bull Rev — Meta-analisis n-back.',
+      steps:['Mainkan dual n-back 15 menit','Target 80%+ akurasi','Catat level tertinggi'],
+      explanation:'Dual N-Back adalah latihan kognitif di mana pengguna harus merespons stimulus visual (posisi kotak di grid) DAN auditori (huruf) secara simultan. Peserta harus mengingat apakah stimulus saat ini SAMA dengan stimulus N langkah sebelumnya. Latihan ini mengaktifkan prefrontal cortex dan hippocampus, area kunci untuk working memory dan fluid intelligence.',
+      benefits:['Meningkatkan fluid intelligence (IQ)','Meningkatkan serum BDNF (Nicastri 2022)','Memperkuat konektivitas prefrontal cortex'],
+      tips:['Mulai dari 1-back selama 1-2 minggu','Jangan frustasi — ini sulit untuk semua orang','Konsistensi > durasi: 15 menit/hari sudah cukup'],
+      videoLinks:[
+        { title:'Cara Main Dual N-Back (Tutorial)', url:'https://www.youtube.com/results?search_query=dual+n+back+tutorial+for+beginners' },
+        { title:'Penjelasan Ilmiah N-Back', url:'https://www.youtube.com/results?search_query=dual+n+back+scientific+explanation' }
+      ]}
+  ],
+  [ // 1: Selasa — Aerobic+Resistance + Mindfulness
+    { id:'ex_0', cat:'Aerobic+Resistance', emoji:'🏃', name:'Aerobic + Resistance Training', dur:30,
+      desc:'Kombinasi kardio 20 menit + kekuatan 10 menit — efek sinergis terbaik untuk kognisi.',
+      ref:'Maher et al. 2025, Br J Sports Med — Umbrella review: exercise SMD 0.42. Arch Gerontol Geriatr 2025 — Resistance terbaik untuk inhibition.',
+      steps:['20 menit kardio (brisk walk/jog/cycle)','10 menit kekuatan (squat, push-up, plank)','Minum air 2 gelas setelahnya'],
+      explanation:'Kombinasi aerobic dan resistance training memberikan efek sinergis untuk kesehatan otak. Aerobic meningkatkan aliran darah dan BDNF, sementara resistance training meningkatkan fungsi eksekutif dan inhibition. Meta-analisis terbaru (Maher 2025) menunjukkan effect size SMD 0.42 untuk kognisi global.',
+      benefits:['Meningkatkan volume hippocampus','Meningkatkan fungsi eksekutif (inhibition, switching)','Efek sinergis > aerobic saja atau resistance saja'],
+      tips:['Jaga denyut nadi 60-70% maksimal','Fokus pada form, bukan berat beban','Lakukan di luar ruangan jika memungkinkan'],
+      videoLinks:[
+        { title:'Full Body Workout 30 Menit', url:'https://www.youtube.com/results?search_query=full+body+workout+30+menit+tanpa+alat' },
+        { title:'Cara Squat yang Benar', url:'https://www.youtube.com/results?search_query=how+to+squat+proper+form' }
+      ]},
+    { id:'ex_1', cat:'Mindfulness', emoji:'🧘', name:'Mindfulness Meditation', dur:15,
+      desc:'Body scan meditation — 8 minggu terbukti meningkatkan gray matter density.',
+      ref:'Hölzel et al. 2011, Psychiatry Res Neuroimaging — Peningkatan gray matter density setelah 8 minggu MBSR. Brain Sci 2026 — Scoping review neuroplastisitas mindfulness.',
+      steps:['Duduk/berbaring nyaman','Scan tubuh dari kaki ke kepala (5 menit)','Fokus pada napas (10 menit)'],
+      explanation:'Mindfulness meditation adalah praktik fokus pada momen saat ini tanpa penghakiman. Body scan meditation melatih kesadaran sensasi tubuh dari ujung kaki hingga kepala. Studi Hölzel (2011) membuktikan bahwa 8 minggu MBSR (Mindfulness-Based Stress Reduction) meningkatkan gray matter density di hippocampus (memori) dan prefrontal cortex (regulasi emosi).',
+      benefits:['Meningkatkan gray matter density (Hölzel 2011)','Mengurangi stres dan kecemasan','Meningkatkan fokus dan konsentrasi'],
+      tips:['Jangan khawatir kalau pikiran mengembara — itu normal','Gunakan guided meditation jika baru mulai','Konsisten 15 menit > sekali-sekali 1 jam'],
+      videoLinks:[
+        { title:'Guided Body Scan Meditation (Bahasa)', url:'https://www.youtube.com/results?search_query=guided+body+scan+meditation+bahasa+indonesia' },
+        { title:'Mindfulness untuk Pemula', url:'https://www.youtube.com/results?search_query=mindfulness+meditation+for+beginners' }
+      ]}
+  ],
+  [ // 2: Rabu — Novel Learning + Social Cognitive
+    { id:'ex_0', cat:'Novel Learning', emoji:'📚', name:'Novel Learning Challenge', dur:20,
+      desc:'Belajar sesuatu yang baru — aktivasi neural pathways, meningkatkan cognitive reserve.',
+      ref:'Bassett & Sporns 2017, Network Control Theory — Stimulasi baru memperkuat konektivitas fungsional otak.',
+      steps:['Pilih 1 hal baru (bahasa/alat musik/puzzle)','Fokus belajar tanpa distraksi 20 menit','Tulis 1 hal yang dipelajari hari ini'],
+      explanation:'Novel learning adalah paparan terhadap informasi atau keterampilan yang benar-benar baru bagi otak. Ini merangsang pembentukan neural pathways baru dan meningkatkan cognitive reserve — kemampuan otak untuk berkompromi terhadap patologi. Belajar bahasa baru, alat musik, atau puzzle kompleks adalah contoh utama.',
+      benefits:['Membentuk neural pathways baru (Bassett & Sporns 2017)','Meningkatkan cognitive reserve','Memperkuat neuroplastisitas jangka panjang'],
+      tips:['Pilih hal yang benar-benar baru (bukan pengulangan)','Kaitkan dengan minat pribadi agar lebih termotivasi','Catat progres belajar harian'],
+      videoLinks:[
+        { title:'Cara Belajar Bahasa Baru Cepat', url:'https://www.youtube.com/results?search_query=how+to+learn+a+new+language+fast' },
+        { title:'Belajar Alat Musik untuk Pemula', url:'https://www.youtube.com/results?search_query=belajar+alat+musik+pemula+dewasa' }
+      ]},
+    { id:'ex_1', cat:'Social Cognitive', emoji:'💬', name:'Social Cognitive Engagement', dur:20,
+      desc:'Diskusi mendalam atau game strategi — stimulasi sosial-kognitif untuk fungsi eksekutif.',
+      ref:'FINGER study — komponen sosial penting. Lancet Healthy Longevity 2025 — Multi-domain > single domain.',
+      steps:['Diskusi tatap muka/video call 20 menit','ATAU main game strategi (catur, puzzle)','Refleksikan 1 wawasan baru'],
+      explanation:'Interaksi sosial yang bermakna menstimulasi area otak yang terkait dengan fungsi eksekutif, empati, dan perspektif-taking. Diskusi mendalam, debat, atau game strategi seperti catur membutuhkan perencanaan, inhibisi, dan fleksibilitas kognitif — semua komponen fungsi eksekutif tingkat tinggi.',
+      benefits:['Menstimulasi fungsi eksekutif','Meningkatkan empati dan kognisi sosial','Menurunkan risiko demensia (FINGER study)'],
+      tips:['Pilih topik diskusi yang menantang secara mental','Game strategi online bisa jadi alternatif','Catat 1 insight dari setiap diskusi'],
+      videoLinks:[
+        { title:'Strategi Catur untuk Pemula', url:'https://www.youtube.com/results?search_query=chess+strategy+for+beginners' },
+        { title:'Cara Diskusi Efektif', url:'https://www.youtube.com/results?search_query=effective+discussion+skills' }
+      ]}
+  ],
+  [ // 3: Kamis — Dual N-Back Advanced + Aerobic+Resistance
+    { id:'ex_0', cat:'Working Memory', emoji:'🧠', name:'Dual N-Back (Advanced)', dur:20,
+      desc:'Tingkatkan level n-back — tantang working memory lebih intens.',
+      ref:'Soveri et al. 2017 — Meta-analisis n-back. Nicastri 2022 — BDNF increase.',
+      steps:['Mainkan dual n-back 20 menit','Target minimal 2-back','Catat level tertinggi & akurasi'],
+      explanation:'Sesi lanjutan Dual N-Back dengan target lebih tinggi. Jika di sesi Senin fokus pada 1-back, sesi Kamis mendorong ke 2-back atau bahkan 3-back. Variasi ini penting untuk terus menantang otak dan menghindari plateu. Prinsip "use it or lose it" berlaku — semakin sulit, semakin besar stimulasi neuroplastisitas.',
+      benefits:['Tantangan lebih tinggi = plastisitas lebih besar','Mencegah adaptasi berlebih (no plateau)','Transfer efek ke kognisi sehari-hari lebih kuat'],
+      tips:['Jika 2-back terlalu sulit, turun ke 1-back dulu','Fokus pada akurasi, bukan kecepatan','Kombinasikan dengan aerobic untuk efek sinergis'],
+      videoLinks:[
+        { title:'Dual N-Back 2-back Tutorial', url:'https://www.youtube.com/results?search_query=dual+2+back+tutorial' },
+        { title:'Brain Training Science', url:'https://www.youtube.com/results?search_query=brain+training+neuroplasticity' }
+      ]},
+    { id:'ex_1', cat:'Aerobic+Resistance', emoji:'🏃', name:'Aerobic + Resistance (Variasi)', dur:30,
+      desc:'Variasi gerakan untuk stimulus otot dan otak yang berbeda.',
+      ref:'Maher 2025 — SMD 0.42. Network MA 2025 — Resistance terbaik untuk inhibition.',
+      steps:['20 menit kardio variasi (skip/jump rope/cycling)','10 menit kekuatan variasi (lunges, dips, rows)','Registrasi denyut nadi sebelum & sesudah'],
+      explanation:'Variasi gerakan memberikan stimulus baru bagi tubuh dan otak. Perubahan rutinitas mencegah adaptasi berlebih dan terus menantang sistem motorik dan kardiovaskular. Ini sejalan dengan prinsip neuroplastisitas — variasi memperkuat koneksi neural yang lebih luas.',
+      benefits:['Mencegah adaptasi otot (muscle adaptation)','Stimulus neural baru dari gerakan berbeda','Meningkatkan adherence jangka panjang'],
+      tips:['Ganti jenis kardio setiap 2 minggu','Tambah variasi gerakan resistance','Dengarkan musik tempo cepat untuk motivasi'],
+      videoLinks:[
+        { title:'Jump Rope untuk Pemula', url:'https://www.youtube.com/results?search_query=jump+rope+workout+for+beginners' },
+        { title:'Variasi Latihan Bodyweight', url:'https://www.youtube.com/results?search_query=bodyweight+exercise+variations' }
+      ]}
+  ],
+  [ // 4: Jumat — Mindfulness Extended + Novel Learning
+    { id:'ex_0', cat:'Mindfulness', emoji:'🧘', name:'Mindfulness (Extended)', dur:20,
+      desc:'Body scan diperpanjang + loving-kindness meditation.',
+      ref:'Hölzel 2011 — Gray matter increase. Brain Sci 2026 — Scoping review mindfulness.',
+      steps:['Body scan 10 menit','Loving-kindness meditation 10 menit','Catat tingkat fokus hari ini (1-10)'],
+      explanation:'Sesi mindfulness diperpanjang dengan tambahan loving-kindness meditation (metta meditation). Praktik ini tidak hanya meningkatkan gray matter density tetapi juga membangun empati dan kesejahteraan emosional. Kombinasi body scan + loving-kindness memberikan manfaat kognitif DAN afektif.',
+      benefits:['Meningkatkan gray matter lebih signifikan','Membangun empati dan well-being','Mengurangi kecemasan lebih kuat'],
+      tips:['Gunakan timer dengan bell interval','Loving-kindness: ucapkan harapan baik untuk diri sendiri, lalu orang lain','Jangan terburu-buru — nikmati setiap fase'],
+      videoLinks:[
+        { title:'Loving-Kindness Meditation Guide', url:'https://www.youtube.com/results?search_query=loving+kindness+meditation+guided' },
+        { title:'Extended Body Scan 20 Menit', url:'https://www.youtube.com/results?search_query=body+scan+meditation+20+minutes' }
+      ]},
+    { id:'ex_1', cat:'Novel Learning', emoji:'📚', name:'Novel Learning (Eksplorasi)', dur:20,
+      desc:'Eksplorasi topik baru yang lebih dalam — dari pengenalan ke pemahaman.',
+      ref:'Bassett & Sporns 2017. PMC 2024 — Cognitive reserve enhancement.',
+      steps:['Review apa yang dipelajari Rabu lalu','Dalami 1 aspek baru dari topik yang sama','Aplikasikan pengetahuan baru dalam konteks berbeda'],
+      explanation:'Sesi ini memperdalam topik yang diperkenalkan di hari Rabu. Pembelajaran mendalam (deep learning) melibatkan elaborasi, koneksi dengan pengetahuan yang sudah ada, dan aplikasi dalam konteks baru. Ini memperkuat konsolidasi memori dan integrasi neural.',
+      benefits:['Konsolidasi memori lebih kuat','Integrasi neural antar area otak','Pemahaman konseptual lebih mendalam'],
+      tips:['Gunakan teknik Feynman: jelaskan ke orang lain','Buat mind map topik yang dipelajari','Cari koneksi dengan pengetahuan yang sudah ada'],
+      videoLinks:[
+        { title:'Feynman Technique untuk Belajar', url:'https://www.youtube.com/results?search_query=feynman+technique+explained' },
+        { title:'Mind Mapping untuk Pemula', url:'https://www.youtube.com/results?search_query=mind+mapping+for+learning' }
+      ]}
+  ],
+  [ // 5: Sabtu — Social Cognitive (Game/Strategi) + Review & Recovery
+    { id:'ex_0', cat:'Social Cognitive', emoji:'🎯', name:'Game Strategi / Brain Puzzle', dur:20,
+      desc:'Main game strategi atau puzzle — stimulasi fungsi eksekutif melalui kompetisi.',
+      ref:'FINGER multidomain — komponen sosial. Lancet 2025 — Multi-domain > single domain.',
+      steps:['Pilih game: catur/sudoku/puzzle/logic game','Main selama 20 menit','Evaluasi strategi yang digunakan'],
+      explanation:'Game strategi dan puzzle membutuhkan perencanaan, fleksibilitas kognitif, dan inhibisi — tiga komponen utama fungsi eksekutif. Game kompetitif (catur, board game) menambahkan elemen sosial-kognitif yang memperkuat manfaat. Sudoku dan puzzle logic memberikan stimulasi kognitif intens.',
+      benefits:['Melatih perencanaan dan strategi','Meningkatkan fleksibilitas kognitif','Elemen sosial-kognitif untuk fungsi eksekutif'],
+      tips:['Pilih game yang sedikit di atas level kemampuan','Catat skor/waktu untuk tracking progres','Main lawan orang lain jika memungkinkan'],
+      videoLinks:[
+        { title:'Belajar Catur dalam 10 Menit', url:'https://www.youtube.com/results?search_query=learn+chess+in+10+minutes' },
+        { title:'Tips Sudoku untuk Pemula', url:'https://www.youtube.com/results?search_query=sudoku+tips+for+beginners' }
+      ]},
+    { id:'ex_1', cat:'Recovery', emoji:'🌙', name:'Review & Recovery', dur:15,
+      desc:'Review progres mingguan + stretching + sleep prep untuk konsolidasi memori.',
+      ref:'Gazerani 2025, Brain Research — Tidur esensial untuk neuroplastisitas. DOI: 10.1016/j.brainres.2025.149643',
+      steps:['Review progres minggu ini','Stretching ringan 10 menit','Matikan layar 30 menit sebelum tidur'],
+      explanation:'Recovery adalah komponen KRITIS dalam neuroplastisitas. Tidur memfasilitasi konsolidasi memori — proses di mana memori jangka pendek ditransfer ke memori jangka panjang. Review mingguan membantu memperkuat learning dan mengidentifikasi area yang perlu perhatian lebih.',
+      benefits:['Konsolidasi memori melalui tidur','Mencegah burnout dan overtraining','Refleksi untuk optimasi program'],
+      tips:['Buat ringkasan mingguan 3-5 poin','Journal pengalaman latihan minggu ini','Matikan gadget 30-45 menit sebelum tidur'],
+      videoLinks:[
+        { title:'Sleep Hygiene Tips', url:'https://www.youtube.com/results?search_query=sleep+hygiene+tips+better+quality' },
+        { title:'Stretching untuk Pemula', url:'https://www.youtube.com/results?search_query=stretching+routine+for+beginners' }
+      ]}
+  ],
+  [ // 6: Minggu — Deep Recovery
+    { id:'ex_0', cat:'Recovery', emoji:'🌙', name:'Deep Recovery & Sleep Prep', dur:30,
+      desc:'Pemulihan penuh: stretching panjang + journal + persiapan tidur optimal.',
+      ref:'Gazerani 2025 — Neuroplastic brain review. Tidur = konsolidasi memori fundamental.',
+      steps:['Stretching full body 15 menit','Review minggu & rencanakan minggu depan','Journal refleksi 10 menit','Sleep prep: redupkan lampu, matikan gadget'],
+      explanation:'Hari pemulihan penuh sangat penting untuk konsolidasi semua pembelajaran dan adaptasi selama seminggu. Tidur bukan hanya istirahat — ini adalah proses aktif di mana otak memproses, mengkonsolidasi, dan mengintegrasikan informasi baru. Deep recovery memastikan Anda siap untuk siklus berikutnya.',
+      benefits:['Konsolidasi memori maksimal','Pemulihan fisiologis penuh','Persiapan mental untuk minggu baru','Mencegah cedera dan burnout'],
+      tips:['Gunakan lampu redup saat journal','Hindari kafein 6 jam sebelum tidur','Suhu ruangan 18-22°C optimal untuk tidur'],
+      videoLinks:[
+        { title:'Full Body Stretching 15 Menit', url:'https://www.youtube.com/results?search_query=full+body+stretching+15+minutes' },
+        { title:'Sleep Hygiene Science', url:'https://www.youtube.com/results?search_query=sleep+hygiene+scientific+explanation' }
+      ]}
+  ]
+];
+
+// ============================
+// ED SCHEDULE (7 hari × 2 exercise)
+// ============================
+const edSchedule = [
+  [ // 0: Senin — Kegel Dasar + Aerobic (Vascular)
+    { id:'ex_0', cat:'Kegel Dasar', emoji:'💪', name:'Pelvic Floor Kegel Dasar', dur:10,
+      desc:'Kontraksi pelvic floor — 40% pria kembali normal setelah latihan rutin.',
+      ref:'Dorey et al. 2005, BJU International — 40% regained normal erectile function. Healthline 2023.',
+      steps:['Kencangkan pelvic floor (seperti menahan kencing)','Hold 5 detik, relaks 5 detik','10 reps, 3 set'],
+      explanation:'Latihan Kegel adalah kontraksi dan relaksasi terstruktur dari otot pelvic floor. Otot inilah yang bertanggung jawab untuk mengontrol aliran darah ke penis dan mempertahankan ereksi. Studi Dorey (2005) menunjukkan bahwa 40% pria dengan ED kembali ke fungsi ereksi normal setelah latihan Kegel rutin selama 6 bulan. Otot pelvic floor perlu dilatih seperti otot lainnya — konsistensi adalah kunci.',
+      benefits:['40% kembali ke fungsi normal (Dorey 2005)','Meningkatkan kontrol ejakulasi','Memperkuat aliran darah ke penis'],
+      tips:['KENali dulu otot yang benar — berhenti di tengah kencing','Jangan kontraksi otot perut/paha','Buang air kecil dulu sebelum latihan'],
+      videoLinks:[
+        { title:'Cara Kegel untuk Pria (Tutorial)', url:'https://www.youtube.com/results?search_query=kegel+exercises+for+men+tutorial' },
+        { title:'Kesalahan Umum Latihan Kegel', url:'https://www.youtube.com/results?search_query=common+kegel+mistakes+men' }
+      ]},
+    { id:'ex_1', cat:'Aerobic', emoji:'🚶', name:'Aerobic untuk Vascular Health', dur:30,
+      desc:'Aerobic exercise meningkatkan aliran darah ke penis — kunci utama fungsi ereksi.',
+      ref:'Medical News Today 2024 — Aerobic perbaiki CV terkait ED. LloydsPharmacy — Exercise perbaiki sirkulasi ke penis.',
+      steps:['Brisk walking/jogging/cycling 30 menit','Jaga denyut 60-70% max','Minum air sebelum & sesudah'],
+      explanation:'Fungsi ereksi sangat bergantung pada kesehatan kardiovaskular. Ereksi adalah proses hemodinamik — aliran darah yang adekuat ke korpus kavernosum. Aerobic exercise meningkatkan fungsi endotel, mengurangi inflamasi, dan memperbaiki sirkulasi ke seluruh tubuh termasuk ke penis. Studi menunjukkan bahwa pria yang melakukan aerobic 3-5x/minggu memiliki risiko ED 30% lebih rendah.',
+      benefits:['Meningkatkan aliran darah ke penis','Memperbaiki fungsi endotel','Menurunkan risiko ED 30%','Membantu menurunkan berat badan (faktor risiko ED)'],
+      tips:['Lakukan di luar ruangan untuk vitamin D','Pertahankan denyut nadi di zona target','Kombinasikan dengan Kegel untuk efek sinergis'],
+      videoLinks:[
+        { title:'Brisk Walk untuk Pemula', url:'https://www.youtube.com/results?search_query=brisk+walking+for+beginners' },
+        { title:'Manfaat Aerobic untuk Kesehatan Seksual', url:'https://www.youtube.com/results?search_query=exercise+for+better+erectile+function' }
+      ]}
+  ],
+  [ // 1: Selasa — Lower Body Strength + Yoga
+    { id:'ex_0', cat:'Strength', emoji:'🏋️', name:'Lower Body Strength', dur:20,
+      desc:'Latihan kekuatan tubuh bagian bawah — meningkatkan testosteron dan aliran darah pelvic.',
+      ref:'Network MA 2025, Arch Gerontol Geriatr — Resistance training untuk fungsi tubuh. J Sexual Med — Strength & ED.',
+      steps:['Bodyweight squat 3x12','Lunges 3x10 per kaki','Glute bridge 3x15','Hip thrust 3x12'],
+      explanation:'Latihan kekuatan tubuh bagian bawah (lower body) meningkatkan produksi testosteron alami dan aliran darah ke area pelvic. Squat, lunge, dan glute bridge melatih otot-otot besar yang mendukung pelvic floor. Studi menunjukkan bahwa resistance training 3x/minggu selama 12 minggu signifikan meningkatkan fungsi ereksi pada pria dengan ED ringan-sedang.',
+      benefits:['Meningkatkan testosteron alami','Aliran darah pelvic lebih baik','Memperkuat otot penunjang pelvic floor','Membantu menurunkan lemak tubuh'],
+      tips:['Fokus pada form, bukan beban berat','Tambah repetisi secara progresif','Gabungkan dengan Kegel saat hold glute bridge'],
+      videoLinks:[
+        { title:'Bodyweight Squat Tutorial', url:'https://www.youtube.com/results?search_query=proper+squat+form+bodyweight' },
+        { title:'Lunges untuk Pemula', url:'https://www.youtube.com/results?search_query=lunges+exercise+for+beginners' }
+      ]},
+    { id:'ex_1', cat:'Yoga', emoji:'🧘', name:'Yoga untuk Pelvic Floor', dur:20,
+      desc:'Pose yoga spesifik untuk memperkuat pelvic floor, fleksibilitas, dan relaksasi.',
+      ref:'Weill Cornell Medicine — Pelvic rehabilitation. NYP Pelvic Health — Yoga untuk pelvic floor dysfunction.',
+      steps:['Child\'s pose (1 menit)','Cat-cow stretch (2 menit)','Bridge pose hold 30s (3x)','Happy baby pose (2 menit)','Deep breathing 5 menit'],
+      explanation:'Yoga menggabungkan kekuatan, fleksibilitas, dan kontrol napas untuk memperkuat pelvic floor. Pose seperti Bridge dan Happy Baby secara langsung menargetkan otot pelvic floor. Selain itu, yoga menurunkan kortisol (hormon stres yang merusak fungsi ereksi) dan meningkatkan aliran darah ke area pelvic. Cat-cow stretch meningkatkan mobilitas tulang belakang dan pelvic mobility.',
+      benefits:['Memperkuat pelvic floor secara fungsional','Mengurangi stres dan kortisol','Meningkatkan fleksibilitas pinggul','Meningkatkan body awareness'],
+      tips:['Bernapas dalam selama setiap pose','Fokus pada koneksi pikiran-otot pelvic','Jangan memaksakan diri — rasa nyeri = stop'],
+      videoLinks:[
+        { title:'Yoga untuk Pelvic Floor (Pemula)', url:'https://www.youtube.com/results?search_query=yoga+for+pelvic+floor+men' },
+        { title:'Happy Baby Pose Tutorial', url:'https://www.youtube.com/results?search_query=happy+baby+pose+yoga' }
+      ]}
+  ],
+  [ // 2: Rabu — Kegel Fast+Slow + PMR
+    { id:'ex_0', cat:'Kegel Variasi', emoji:'⚡', name:'Kegel Fast + Slow Twitch', dur:12,
+      desc:'Variasi kontraksi cepat dan lambat — latih kedua jenis serat otot pelvic floor.',
+      ref:'Journal of Sexual Medicine — Pelvic floor rehab protocol. Byram Healthcare — Hasil dalam 6-8 minggu.',
+      steps:['Fast Kegel: kontraksi 1 detik × 20x','Slow Kegel: kontraksi 10 detik × 10x','Visualisasi: aliran darah ke area pelvic'],
+      explanation:'Otot pelvic floor terdiri dari dua jenis serat: fast-twitch (untuk kontraksi cepat, mencegah kebocoran) dan slow-twitch (untuk sustained contraction, mendukung ereksi). Fast Kegel melatih respons cepat, sementara Slow Kegel membangun daya tahan otot. Kombinasi keduanya penting untuk fungsi ereksi optimal.',
+      benefits:['Melatih kedua jenis serat otot pelvic','Meningkatkan kontrol ereksi','Meningkatkan daya tahan pelvic floor','Hasil mulai terlihat 6-8 minggu'],
+      tips:['Jangan menahan napas — tetap bernapas normal','Visualisasi membantu koneksi pikiran-otot','Lakukan di waktu yang sama setiap hari untuk habit'],
+      videoLinks:[
+        { title:'Fast Kegel vs Slow Kegel', url:'https://www.youtube.com/results?search_query=fast+and+slow+twitch+kegel+exercises' },
+        { title:'Pelvic Floor Visualization', url:'https://www.youtube.com/results?search_query=pelvic+floor+visualization+technique' }
+      ]},
+    { id:'ex_1', cat:'Relaksasi', emoji:'😌', name:'Progressive Muscle Relaxation (PMR)', dur:15,
+      desc:'Relaksasi otot progresif mengurangi stres — penyebab psikologis utama ED.',
+      ref:'Brain Sci 2026 — Stres kronis merusak fungsi ereksi melalui jalur kortisol. MansMatters UK — Manajemen stres untuk ED.',
+      steps:['Tegangkan otot kaki 5s, lepas 10s','Tegangkan perut 5s, lepas 10s','Tegangkan dada/lengan 5s, lepas 10s','Tegangkan wajah 5s, lepas 10s','Relaksasi total 3 menit'],
+      explanation:'PMR adalah teknik relaksasi yang melibatkan ketegangan dan pelepasan sistematis kelompok otot utama. Stres kronis meningkatkan kortisol, yang menyempitkan pembuluh darah dan mengganggu produksi testosteron — dua faktor yang berkontribusi langsung pada ED. PMR juga mengaktifkan sistem saraf parasimpatis (rest & digest), yang esensial untuk fungsi ereksi normal.',
+      benefits:['Menurunkan kortisol dan stres','Mengaktifkan sistem parasimpatis','Memperbaiki kualitas tidur','Mengurangi kecemasan performa seksual'],
+      tips:['Lakukan di tempat tenang tanpa gangguan','Rasakan kontras antara tegang dan rileks','Kombinasikan dengan napas dalam'],
+      videoLinks:[
+        { title:'PMR Guided (Bahasa Indonesia)', url:'https://www.youtube.com/results?search_query=progressive+muscle+relaxation+bahasa+indonesia' },
+        { title:'PMR untuk Pemula Lengkap', url:'https://www.youtube.com/results?search_query=progressive+muscle+relaxation+guided+beginner' }
+      ]}
+  ],
+  [ // 3: Kamis — Aerobic + Lifestyle Check
+    { id:'ex_0', cat:'Aerobic', emoji:'🚶', name:'Aerobic Intensif (Vascular)', dur:30,
+      desc:'Aerobic dengan intensitas lebih tinggi — maksimalkan sirkulasi dan fungsi endotel.',
+      ref:'Medical News Today 2024. LloydsPharmacy — Exercise perbaiki sirkulasi ke penis.',
+      steps:['Jogging/cycling intensitas sedang 30 menit','Interval: 2 menit cepat + 1 menit lambat','Registrasi detak jantung'],
+      explanation:'Sesi aerobic dengan interval training memberikan stimulus kardiovaskular yang lebih kuat. Interval training telah terbukti lebih efektif daripada steady-state dalam meningkatkan VO2 max dan fungsi endotel — dua faktor kunci untuk kesehatan ereksi. Variasi intensitas juga menjaga motivasi dan mencegah kebosanan.',
+      benefits:['Meningkatkan VO2 max — kapasitas aerobik','Fungsi endotel lebih optimal','Efek lebih besar pada sirkulasi pelvic','Variasi mencegah plateau kebugaran'],
+      tips:['Mulai dengan 5 menit pemanasan jalan','Interval 2:1 (kerja:recovery)','Jangan terlalu keras — pertahankan bisa bicara'],
+      videoLinks:[
+        { title:'Interval Jogging untuk Pemula', url:'https://www.youtube.com/results?search_query=interval+jogging+for+beginners' },
+        { title:'VO2 Max Training', url:'https://www.youtube.com/results?search_query=improve+vo2+max+tips' }
+      ]},
+    { id:'ex_1', cat:'Lifestyle', emoji:'✅', name:'Lifestyle Check & Review', dur:10,
+      desc:'Tracking faktor gaya hidup yang mempengaruhi ED.',
+      ref:'MansMatters UK — ED multifaktorial. Byram Healthcare — Hasil dalam 3 bulan.',
+      steps:['Catat berat badan hari ini','Review kualitas tidur (1-10)','Catat alkohol/rokok (jika ada)','Skala stres hari ini (1-10)'],
+      explanation:'ED adalah kondisi multifaktorial — gaya hidup memainkan peran besar. Berat badan berlebih meningkatkan risiko ED 30-50%. Tidur kurang dari 6 jam menurunkan testosteron 15%. Alkohol dan rokok merusak fungsi endotel. Tracking faktor-faktor ini membantu Anda mengidentifikasi pola dan membuat perubahan yang tepat.',
+      benefits:['Identifikasi faktor risiko personal','Motivasi perubahan gaya hidup','Data obyektif untuk konsultasi medis','Korelasi langsung dengan progres latihan'],
+      tips:['Gunakan skala 1-10 yang konsisten','Catat di waktu yang sama setiap hari','Jangan hakimi diri sendiri — data adalah informasi'],
+      videoLinks:[
+        { title:'ED dan Gaya Hidup', url:'https://www.youtube.com/results?search_query=lifestyle+factors+erectile+dysfunction' },
+        { title:'Tracking Health Metrics', url:'https://www.youtube.com/results?search_query=how+to+track+health+metrics+daily' }
+      ]}
+  ],
+  [ // 4: Jumat — Yoga + Kegel Advanced
+    { id:'ex_0', cat:'Yoga', emoji:'🧘', name:'Yoga Pelvic Flow', dur:20,
+      desc:'Flow yoga untuk pelvic floor — variasi pose untuk kekuatan dan fleksibilitas.',
+      ref:'Weill Cornell Medicine. NYP Pelvic Health.',
+      steps:['Cat-cow (2 menit)','Downward dog (2 menit)','Bridge pose 30s × 3','Pigeon pose 1 menit/kaki','Malasana (deep squat) 2 menit'],
+      explanation:'Yoga flow ini dirancang khusus untuk pelvic floor. Downward dog meningkatkan aliran darah ke pelvis, Pigeon pose membuka pinggul yang sering kaku pada pria, dan Malasana (deep squat) secara langsung meregangkan dan memperkuat pelvic floor. Variasi pose memastikan semua otot pendukung pelvic floor terlatih.',
+      benefits:['Membuka pinggul dan meningkatkan aliran darah pelvic','Variasi pose untuk stimulasi otot berbeda','Mengurangi ketegangan di area pelvic','Meningkatkan koneksi pikiran-tubuh'],
+      tips:['Transisi perlahan antar pose','Gunakan napas sebagai panduan','Modifikasi pose sesuai kemampuan'],
+      videoLinks:[
+        { title:'Yoga untuk Pria (Pelvic Focus)', url:'https://www.youtube.com/results?search_query=yoga+for+men+pelvic+floor' },
+        { title:'Pigeon Pose untuk Pemula', url:'https://www.youtube.com/results?search_query=pigeon+pose+for+beginners' }
+      ]},
+    { id:'ex_1', cat:'Kegel Dasar', emoji:'💪', name:'Kegel Dasar (Advanced Hold)', dur:10,
+      desc:'Peningkatan durasi hold — dari 5 detik ke 10 detik.',
+      ref:'Dorey 2005 — 40% kembali normal. Journal of Sexual Medicine.',
+      steps:['Kencangkan pelvic floor','Hold 10 detik, relaks 5 detik','8 reps, 4 set','Tambahkan reverse Kegel di akhir'],
+      explanation:'Peningkatan durasi hold dari 5 ke 10 detik menandakan kemajuan kekuatan pelvic floor. Reverse Kegel (relaksasi aktif) juga penting — kemampuan untuk MELEPASKAN otot pelvic floor esensial untuk aliran darah yang lancar saat ereksi. Keseimbangan kontraksi dan relaksasi adalah kunci fungsi ereksi optimal.',
+      benefits:['Peningkatan kekuatan pelvic floor signifikan','Kontrol otot lebih baik','Fungsional untuk mempertahankan ereksi'],
+      tips:['Jangan hold sampai gemetar — turunkan jika terlalu sulit','Reverse Kegel: dorong seperti mau buang air besar','Konsistensi > intensitas'],
+      videoLinks:[
+        { title:'Advanced Kegel untuk Pria', url:'https://www.youtube.com/results?search_query=advanced+kegel+exercises+for+men' },
+        { title:'Reverse Kegel Explained', url:'https://www.youtube.com/results?search_query=reverse+kegel+exercise' }
+      ]}
+  ],
+  [ // 5: Sabtu — Lower Body + PMR
+    { id:'ex_0', cat:'Strength', emoji:'🏋️', name:'Lower Body Strength (Progresif)', dur:25,
+      desc:'Tambah volume dan repetisi — progresif overload untuk kekuatan pelvic.',
+      ref:'Network MA 2025 — Resistance training. J Sexual Med.',
+      steps:['Goblet squat 3x15 (atau bodyweight)','Walking lunges 3x12 per kaki','Single-leg bridge 3x12 per sisi','Calf raises 3x20'],
+      explanation:'Progresif overload — prinsip dasar latihan kekuatan — juga berlaku untuk fungsi ereksi. Latihan lower body yang semakin menantang merangsang adaptasi hormonal (testosteron) dan kardiovaskular. Single-leg bridge secara khusus mengaktifkan glutes dan pelvic floor lebih intens daripada bilateral bridge.',
+      benefits:['Adaptasi hormonal optimal (testosteron)','Kekuatan fungsional untuk aktivitas seksual','Stimulasi pelvic floor melalui single-leg work','Pembakaran lemak lebih efektif'],
+      tips:['Tambah 1-2 repetisi per minggu','Fokus pada kontrol gerakan, bukan kecepatan','Registrasi progres di jurnal'],
+      videoLinks:[
+        { title:'Goblet Squat Tutorial', url:'https://www.youtube.com/results?search_query=goblet+squat+proper+form' },
+        { title:'Single Leg Bridge Exercise', url:'https://www.youtube.com/results?search_query=single+leg+glute+bridge' }
+      ]},
+    { id:'ex_1', cat:'Relaksasi', emoji:'😌', name:'PMR Extended (Full Body)', dur:20,
+      desc:'PMR lebih panjang dengan tambahan kelompok otot.',
+      ref:'Brain Sci 2026 — Stres dan ED. MansMatters UK — Manajemen stres.',
+      steps:['Kaki & betis 5s/10s','Perut & punggung 5s/10s','Dada & lengan 5s/10s','Wajah & leher 5s/10s','Relaksasi total 5 menit','Visualisasi: gelombang relaksasi dari kepala ke kaki'],
+      explanation:'PMR extended menambahkan lebih banyak kelompok otot dan visualisasi. Visualisasi gelombang relaksasi memperkuat koneksi pikiran-tubuh dan membantu mengaktifkan sistem parasimpatis lebih dalam. Ini sangat penting untuk pria dengan ED yang dipicu kecemasan performa.',
+      benefits:['Relaksasi lebih dalam dan menyeluruh','Mengurangi kecemasan performa','Aktivasi parasimpatis maksimal','Meningkatkan body awareness'],
+      tips:['Lakukan di ruangan gelap','Gunakan matras yang nyaman','Visualisasikan warna relaksasi (biru/hijau)'],
+      videoLinks:[
+        { title:'Full Body PMR 20 Menit', url:'https://www.youtube.com/results?search_query=full+body+progressive+muscle+relaxation' },
+        { title:'Visualization for Relaxation', url:'https://www.youtube.com/results?search_query=guided+relaxation+visualization' }
+      ]}
+  ],
+  [ // 6: Minggu — Lifestyle Check + Stretching
+    { id:'ex_0', cat:'Lifestyle', emoji:'✅', name:'Lifestyle Check & Weekly Review', dur:15,
+      desc:'Evaluasi menyeluruh faktor gaya hidup + tracking mingguan.',
+      ref:'MansMatters UK — ED multifaktorial. Byram Healthcare — Hasil dalam 3 bulan.',
+      steps:['Review berat badan & tren mingguan','Review kualitas tidur rata-rata','Review level stres mingguan','Catat kepatuhan latihan minggu ini','Rencanakan target minggu depan'],
+      explanation:'Review mingguan adalah kesempatan untuk melihat gambaran besar. Kepatuhan latihan adalah prediktor terbaik hasil jangka panjang. Studi menunjukkan bahwa pria yang konsisten dengan latihan pelvic floor selama 3 bulan memiliki perbaikan signifikan, sementara yang tidak konsisten tidak melihat hasil. Review membantu Anda tetap di jalur.',
+      benefits:['Motivasi jangka panjang','Identifikasi pola dan tren','Koreksi dini jika ada penurunan','Perencanaan proaktif'],
+      tips:['Jangan skip review mingguan — ini penting','Rayakan kemenangan kecil','Jika ada penurunan, cari pola penyebab'],
+      videoLinks:[
+        { title:'Weekly Review System', url:'https://www.youtube.com/results?search_query=weekly+review+system+self+improvement' },
+        { title:'ED Recovery Timeline', url:'https://www.youtube.com/results?search_query=erectile+dysfunction+recovery+timeline' }
+      ]},
+    { id:'ex_1', cat:'Recovery', emoji:'🌙', name:'Stretching & Mindful Rest', dur:15,
+      desc:'Stretching ringan + mindful rest — persiapan untuk siklus baru.',
+      ref:'Gazerani 2025 — Rest esensial untuk neuroplastisitas. Byram Healthcare — Recovery penting.',
+      steps:['Full body gentle stretching 10 menit','Mindful breathing 5 menit','Intention setting untuk minggu depan'],
+      explanation:'Hari rest bukan hari yang "hilang" — ini adalah hari di mana tubuh dan otak MEMPERBAIKI dan MEMPERKUAT adaptasi dari latihan sebelumnya. Stretching meningkatkan fleksibilitas pelvic floor, sementara mindful breathing mengaktifkan parasimpatis. Intention setting untuk minggu depan memastikan Anda memulai dengan tujuan yang jelas.',
+      benefits:['Pemulihan pelvic floor','Fleksibilitas optimal untuk latihan minggu depan','Persiapan mental','Pencegahan cedera'],
+      tips:['Coba different stretching setiap minggu','Gunakan timer untuk mindful breathing','Tulis 1 intention spesifik untuk minggu depan'],
+      videoLinks:[
+        { title:'Restorative Stretching', url:'https://www.youtube.com/results?search_query=restorative+stretching+routine' },
+        { title:'Mindful Breathing untuk Pemula', url:'https://www.youtube.com/results?search_query=mindful+breathing+for+beginners' }
+      ]}
+  ]
+];
+
+// ============================
+// STATE
+// ============================
+let state = {
+  brain: JSON.parse(localStorage.getItem('nf_brain')) || {},
+  ed: JSON.parse(localStorage.getItem('nf_ed')) || {},
+  settings: JSON.parse(localStorage.getItem('nf_settings')) || { name:'User', reminder:false, reminderTime:'08:00', dark:false },
+  startDate: localStorage.getItem('nf_start') || (() => { const d = new Date(); d.setDate(d.getDate()+1); return d.toISOString().split('T')[0]; })(),
+  currentSection: 'today',
+  calView: 'brain',
+  timerInterval: null,
+  timerRunning: false,
+  timerSeconds: 0,
+  timerOriginal: 0,
+  timerExerciseId: null
+};
+
+// Migration: detect old format (flat completed bool) → reset
+function migrateData(){
+  const sample = state.brain[Object.keys(state.brain)[0]];
+  if (sample && typeof sample.completed === 'boolean'){
+    if (confirm('Data terdeteksi dari versi lama. Reset untuk struktur baru? (progress lama akan dibackup otomatis)')) exportData(true);
+    state.brain = {};
+    state.ed = {};
+  }
+}
+
+function saveState(){
+  localStorage.setItem('nf_brain', JSON.stringify(state.brain));
+  localStorage.setItem('nf_ed', JSON.stringify(state.ed));
+  localStorage.setItem('nf_settings', JSON.stringify(state.settings));
+  localStorage.setItem('nf_start', state.startDate);
+}
+
+// ============================
+// HELPERS
+// ============================
+function dayIndex(dateStr){
+  const start = new Date(state.startDate);
+  const now = dateStr ? new Date(dateStr) : new Date();
+  const diff = Math.floor((now - start) / (1000*60*60*24));
+  return Math.max(0, diff);
+}
+
+function getCombinedExercises(day){
+  const brain = brainSchedule[day % 7].map(ex => ({...ex, module: 'brain'}));
+  const ed = edSchedule[day % 7].map(ex => ({...ex, module: 'ed'}));
+  return [...brain, ...ed];
+}
+
+function getDayKey(module, idx){
+  return `day_${idx}`;
+}
+
+function getLevel(today){
+  return Math.min(13, Math.floor(today/28)+1);
+}
+
+function formatTime(sec){
+  const m = Math.floor(sec/60);
+  const s = sec%60;
+  return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}
+
+function countDayExercises(module, dayData){
+  if (!dayData) return { done: 0, total: 0 };
+  const total = Object.keys(dayData).length;
+  const done = Object.values(dayData).filter(d => d?.completed).length;
+  return { done, total };
+}
+
+// ============================
+// RENDER
+// ============================
+function render(){
+  const today = dayIndex();
+  const level = getLevel(today);
+  const exercises = getCombinedExercises(today);
+  const dayName = DAYS[new Date().getDay()];
+
+  // Count across both modules
+  let allDone = 0, allTotal = exercises.length;
+  const brainKey = getDayKey('brain', today);
+  const edKey = getDayKey('ed', today);
+  const brainData = state.brain[brainKey] || {};
+  const edData = state.ed[edKey] || {};
+  exercises.forEach(ex => {
+    const d = ex.module === 'brain' ? brainData[ex.id] : edData[ex.id];
+    if (d?.completed) allDone++;
+  });
+
+  // Dashboard — combined
+  const brainEx = countAllExercises('brain');
+  const edEx = countAllExercises('ed');
+  const brainStreak = calcStreak('brain');
+  const edStreak = calcStreak('ed');
+  const totalEx = brainEx + edEx;
+  const combStreak = Math.max(brainStreak, edStreak);
+  document.getElementById('streakNum').textContent = combStreak;
+  document.getElementById('dayNum').textContent = `Hari ke-${today+1}`;
+  document.getElementById('dayLabel').textContent = `Level ${level} · ${totalEx} exercise`;
+
+  const bpct = Math.min(100, Math.round((brainEx/365)*100));
+  const epct = Math.min(100, Math.round((edEx/365)*100));
+  const circ = 188.5;
+  document.querySelector('.prog-brain circle.prog').style.strokeDashoffset = circ - (circ * bpct / 100);
+  document.querySelector('.prog-ed circle.prog').style.strokeDashoffset = circ - (circ * epct / 100);
+  document.getElementById('brainPct').textContent = bpct+'%';
+  document.getElementById('edPct').textContent = epct+'%';
+
+  // Today section
+  let html = `<div class="glass-card day-card"><div class="day-header"><h2>📍 ${dayName} · Level ${level}</h2><span class="day-num">Hari #${today+1}</span></div>`;
+  const pctDone = allTotal > 0 ? Math.round(allDone/allTotal*100) : 0;
+  html += `<div class="day-progress"><span>${allDone}/${allTotal} selesai</span><div class="bar-track"><div class="bar-fill" style="width:${pctDone}%"></div></div><span>${pctDone}%</span></div>`;
+
+  exercises.forEach((ex, i) => {
+    const exData = ex.module === 'brain' ? brainData[ex.id] : edData[ex.id];
+    const exDone = exData?.completed || false;
+    const dur = scaleDur(ex.dur, level);
+    const exFullId = `${ex.module}_${today}_${ex.id}`;
+    const isTimerActive = state.timerRunning && state.timerExerciseId === exFullId;
+    const modCls = ex.module === 'brain' ? 'brain' : 'ed';
+    html += `<div class="sub-card ${exDone?'done':''}">
+      <h4>${ex.emoji} ${ex.name}<span class="module-tag ${modCls}">${ex.module==='brain'?'🧠 Otak':'❤️‍🔥 ED'}</span></h4>
+      <div class="meta">${ex.cat} · ⏱ ${dur} menit</div>`;
+    if (isTimerActive){
+      html += `<div class="timer-label active">⏱️ Timer: ${ex.name} (${formatTime(state.timerSeconds)})</div>`;
+    }
+    const idx = i;
+    html += `<div class="actions">
+      <button class="tbtn-act ${isTimerActive?'active-timer':''}" onclick="toggleTimer(${idx})" aria-label="Timer ${ex.name}">${isTimerActive?'⏸️':'▶️'} Timer</button>
+      <button class="info-btn" onclick="openInfo(${today%7},${i})" aria-label="Info ${ex.name}">ℹ️ Info</button>
+      <button class="done-btn ${!exDone?'can-do':''}" onclick="completeExercise(${idx})" ${exDone?'disabled':''}>${exDone?'✅':'☐'} Selesai</button>
+    </div>`;
+    if (!exDone){
+      html += `<ul class="steps">${ex.steps.map(s => `<li onclick="this.classList.toggle('done');this.querySelector('.cb').textContent=this.classList.contains('done')?'✓':''"><span class="cb"></span><span>${s}</span></li>`).join('')}</ul>`;
+    }
+    html += `<textarea class="ex-note" placeholder="Catatan..." onchange="saveNote(${idx},this.value)">${exData?.note||''}</textarea>`;
+    html += `</div>`;
+  });
+
+  html += `<div class="ref" style="font-size:0.78em;color:var(--text2);margin-top:10px;padding:8px 10px;background:var(--input-bg);border-radius:8px;border-left:3px solid var(--text3)">📄 Level ${level} · Durasi exercise naik +${(level-1)*5} menit dari base. 🧠 Otak + ❤️‍🔥 ED dalam satu sesi.</div>`;
+  html += `</div>`;
+  document.getElementById('todaySection').innerHTML = html;
+
+  if (!state.timerRunning){
+    state.timerSeconds = scaleDur(exercises[0].dur, level)*60;
+    state.timerOriginal = scaleDur(exercises[0].dur, level)*60;
+    state.timerExerciseId = null;
+  }
+
+  renderCal();
+  renderStats();
+  renderJournal();
+  updateNav();
+}
+
+function saveNote(exIdx, val){
+  const today = dayIndex();
+  const ex = getCombinedExercises(today)[exIdx];
+  const key = getDayKey(ex.module, today);
+  if (!state[ex.module][key]) state[ex.module][key] = {};
+  if (!state[ex.module][key][ex.id]) state[ex.module][key][ex.id] = {};
+  state[ex.module][key][ex.id].note = val;
+  saveState();
+}
+
+// ============================
+// TIMER
+// ============================
+function toggleTimer(exIdx){
+  const today = dayIndex();
+  const level = getLevel(today);
+  const ex = getCombinedExercises(today)[exIdx];
+  const exFullId = `${ex.module}_${today}_${ex.id}`;
+
+  if (state.timerRunning && state.timerExerciseId === exFullId){
+    clearInterval(state.timerInterval);
+    state.timerRunning = false;
+    state.timerExerciseId = null;
+    render();
+    return;
+  }
+
+  clearInterval(state.timerInterval);
+  state.timerSeconds = scaleDur(ex.dur, level)*60;
+  state.timerOriginal = scaleDur(ex.dur, level)*60;
+  state.timerRunning = true;
+  state.timerExerciseId = exFullId;
+
+  state.timerInterval = setInterval(() => {
+    if (state.timerSeconds <= 0){
+      clearInterval(state.timerInterval);
+      state.timerRunning = false;
+      state.timerExerciseId = null;
+      showToast('⏰ Timer selesai!','success');
+      render();
+      return;
+    }
+    state.timerSeconds--;
+    const label = document.querySelector('.timer-label.active');
+    if (label) label.textContent = `⏱️ Timer: ${ex.name} (${formatTime(state.timerSeconds)})`;
+  }, 1000);
+  render();
+}
+
+// ============================
+// COMPLETE EXERCISE
+// ============================
+function completeExercise(exIdx){
+  const today = dayIndex();
+  const ex = getCombinedExercises(today)[exIdx];
+  const key = getDayKey(ex.module, today);
+  if (!state[ex.module][key]) state[ex.module][key] = {};
+  if (state[ex.module][key][ex.id]?.completed) return;
+
+  clearInterval(state.timerInterval);
+  state.timerRunning = false;
+  state.timerExerciseId = null;
+
+  state[ex.module][key][ex.id] = {
+    completed: true,
+    completedAt: new Date().toISOString(),
+    note: state[ex.module][key][ex.id]?.note || ''
+  };
+  saveState();
+
+  const allEx = getCombinedExercises(today);
+  let done = 0;
+  const bKey = getDayKey('brain', today), eKey = getDayKey('ed', today);
+  allEx.forEach(ex => {
+    const d = ex.module === 'brain' ? (state.brain[bKey]||{})[ex.id] : (state.ed[eKey]||{})[ex.id];
+    if (d?.completed) done++;
+  });
+  showToast(`✅ ${ex.name} selesai! (${done}/${allEx.length} hari ini)`, 'success');
+  scheduleReminder();
+  render();
+}
+
+function countAllExercises(tab){
+  let c = 0;
+  for (const dayData of Object.values(state[tab])){
+    c += Object.values(dayData).filter(d => d?.completed).length;
+  }
+  return c;
+}
+
+function totEx(tab){
+  const c = countAllExercises(tab);
+  return `${c} exercise`;
+}
+
+// ============================
+// STREAK
+// ============================
+function calcStreak(tab){
+  let streak = 0;
+  for (let i=dayIndex(); i>=0; i--){
+    const key = getDayKey(tab, i);
+    const dayData = state[tab][key];
+    if (!dayData) break;
+    const exCount = Object.values(dayData).filter(d => d?.completed).length;
+    if (exCount > 0) streak++;
+    else break;
+  }
+  return streak;
+}
+
+function combinedStreak(){
+  let streak = 0;
+  for (let i=dayIndex(); i>=0; i--){
+    const bk = getDayKey('brain', i), ek = getDayKey('ed', i);
+    const bd = state.brain[bk]||{}, ed = state.ed[ek]||{};
+    const all = [...Object.values(bd), ...Object.values(ed)];
+    const done = all.filter(d => d?.completed).length;
+    if (done > 0) streak++;
+    else break;
+  }
+  return streak;
+}
+
+// ============================
+// INFO MODAL
+// ============================
+function openInfo(dayIdx, exIdx){
+  const ex = getCombinedExercises(dayIdx)[exIdx];
+  const el = document.getElementById('infoModal');
+  const content = document.getElementById('infoModalContent');
+  const level = getLevel(dayIndex());
+  const dur = scaleDur(ex.dur, level);
+
+  let html = `<button class="modal-close" onclick="closeInfo()">✕</button>
+    <h3>${ex.emoji} ${ex.name}</h3>
+    <div class="modal-section"><h4>📖 Apa Itu</h4><p>${ex.explanation}</p></div>
+    <div class="modal-section"><h4>🎯 Manfaat</h4><ul>${ex.benefits.map(b => `<li>${b}</li>`).join('')}</ul></div>
+    <div class="modal-section"><h4>💡 Tips</h4><ul>${ex.tips.map(t => `<li>${t}</li>`).join('')}</ul></div>
+    <div class="modal-section"><h4>⏱ Durasi Level ${level}</h4><p>Base: ${ex.dur} menit · Total: ${dur} menit (level × +5 menit)</p></div>`;
+  if (ex.videoLinks && ex.videoLinks.length){
+    html += `<div class="modal-section"><h4>🔗 Video Panduan</h4>`;
+    ex.videoLinks.forEach(v => {
+      html += `<div class="modal-video"><a href="${v.url}" target="_blank" rel="noopener">▶️ ${v.title}</a></div>`;
+    });
+    html += `</div>`;
+  }
+  html += `<div class="modal-section"><h4>📄 Referensi</h4><div class="modal-ref">${ex.ref}</div></div>`;
+
+  content.innerHTML = html;
+  el.classList.remove('hidden','closing');
+  void el.offsetWidth;
+  el.style.display = 'flex';
+}
+
+function closeInfo(){
+  const el = document.getElementById('infoModal');
+  el.classList.add('closing');
+  setTimeout(() => { el.classList.add('hidden'); el.style.display = ''; }, 200);
+}
+
+// Close modal on overlay click
+document.addEventListener('click', function(e){
+  const modal = document.getElementById('infoModal');
+  if (e.target === modal && !modal.classList.contains('hidden')){
+    closeInfo();
+  }
+});
+
+// ============================
+// CALENDAR
+// ============================
+function renderCal(){
+  const wrap = document.getElementById('calWrap');
+  const today = dayIndex();
+  let html = '<div class="cal-grid">';
+  for (let i=0; i<365; i++){
+    const bKey = getDayKey('brain', i), eKey = getDayKey('ed', i);
+    const bDay = state.brain[bKey] || {}, eDay = state.ed[eKey] || {};
+    const allEx = [...Object.values(bDay), ...Object.values(eDay)];
+    const done = allEx.filter(d => d?.completed).length;
+    const total = allEx.length;
+    let cls = 'cal-day';
+    if (i > today) cls += ' empty';
+    else if (total > 0 && done === total) cls += ' done';
+    else if (total > 0 && done > 0) cls += ' partial';
+    else if (i < today) cls += ' miss';
+    if (i === today) cls += ' today';
+    const label = total > 0 ? `${done}/${total}` : (i < today ? '0' : '');
+    html += `<div class="${cls}" title="Hari ${i+1}: ${label||'Belum'}">${i+1}</div>`;
+  }
+  html += '</div>';
+  wrap.innerHTML = html;
+}
+
+function showCal(tab){
+  state.calView = tab;
+  renderCal();
+}
+
+// ============================
+// STATS
+// ============================
+function renderStats(){
+  const grid = document.getElementById('statsGrid');
+  const brainEx = countAllExercises('brain');
+  const edEx = countAllExercises('ed');
+  const brainStreak = calcStreak('brain');
+  const edStreak = calcStreak('ed');
+  const totalEx = brainEx + edEx;
+  const maxEx = (dayIndex()+1) * 2;
+  const consist = maxEx > 0 ? Math.round(totalEx/maxEx*100) : 0;
+
+  grid.innerHTML = `
+    <div class="stat-item glass-card" style="padding:10px 4px">
+      <div class="snum">${brainEx}</div>
+      <div class="slbl">🧠 Ex Otak</div>
+    </div>
+    <div class="stat-item glass-card" style="padding:10px 4px">
+      <div class="snum">${edEx}</div>
+      <div class="slbl">❤️‍🔥 Ex ED</div>
+    </div>
+    <div class="stat-item glass-card" style="padding:10px 4px">
+      <div class="snum">${totalEx}</div>
+      <div class="slbl">Total Exercise</div>
+    </div>
+    <div class="stat-item glass-card" style="padding:10px 4px">
+      <div class="snum">${brainStreak}</div>
+      <div class="slbl">🔥 Streak Otak</div>
+    </div>
+    <div class="stat-item glass-card" style="padding:10px 4px">
+      <div class="snum">${edStreak}</div>
+      <div class="slbl">🔥 Streak ED</div>
+    </div>
+    <div class="stat-item glass-card" style="padding:10px 4px">
+      <div class="snum">${consist}%</div>
+      <div class="slbl">📊 Konsistensi</div>
+    </div>
+  `;
+
+  const chart = document.getElementById('chartBar');
+  const weeks = Math.min(12, Math.ceil((dayIndex()+1)/7));
+  let chartHtml = '';
+  for (let w=0; w<weeks; w++){
+    let b = 0, e = 0;
+    for (let d=w*7; d<Math.min((w+1)*7, dayIndex()+1); d++){
+      const bk = getDayKey('brain', d);
+      const ek = getDayKey('ed', d);
+      if (state.brain[bk]) b += Object.values(state.brain[bk]).filter(x => x?.completed).length;
+      if (state.ed[ek]) e += Object.values(state.ed[ek]).filter(x => x?.completed).length;
+    }
+    const maxW = 14;
+    const bh = Math.max(4, (b/maxW)*56);
+    const eh = Math.max(4, (e/maxW)*56);
+    chartHtml += `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div class="bar brain-bar" style="height:${bh}px" title="Otak: ${b}/14"></div>
+      <div class="bar ed-bar" style="height:${eh}px" title="ED: ${e}/14"></div>
+      <div class="bl">W${w+1}</div>
+    </div>`;
+  }
+  chart.innerHTML = chartHtml;
+}
+
+// ============================
+// JOURNAL
+// ============================
+function renderJournal(){
+  const list = document.getElementById('journalList');
+  const all = [];
+  for (const tab of ['brain','ed']){
+    for (const [key, dayData] of Object.entries(state[tab])){
+      for (const [exId, exData] of Object.entries(dayData)){
+        if (exData.completed && exData.note){
+          const dayNum = parseInt(key.replace('day_',''))+1;
+          all.push({ tab, dayNum, date: exData.completedAt, note: exData.note, exId });
+        }
+      }
+    }
+  }
+  all.sort((a,b)=>new Date(b.date)-new Date(a.date));
+  if (all.length===0){
+    list.innerHTML = '<div class="empty-state">Belum ada catatan. Selesaikan latihan & tulis catatan!</div>';
+    return;
+  }
+  list.innerHTML = all.slice(0,20).map(j => `
+    <div class="journal-item">
+      <div class="jdate">${j.tab==='brain'?'🧠':'❤️‍🔥'} Hari #${j.dayNum} · ${new Date(j.date).toLocaleDateString('id-ID')}</div>
+      <div class="jnote">${j.note}</div>
+    </div>
+  `).join('');
+}
+
+// ============================
+// NAVIGATION
+// ============================
+function showSection(section){
+  state.currentSection = section;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.nav===section));
+  const sec = ['dashboard','settingsSection','todaySection','calSection','statsSection','journalSection'];
+  const vis = { dashboard: section!=='settings', settingsSection: section==='settings',
+    todaySection: section==='today', calSection: section==='cal',
+    statsSection: section==='stats', journalSection: section==='journal' };
+  sec.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.toggle('hidden', !vis[id]);
+    if (vis[id]) { el.classList.remove('fade-in'); void el.offsetWidth; el.classList.add('fade-in'); }
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  render();
+}
+
+function updateNav(){
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.nav===state.currentSection));
+}
+
+// ============================
+// SETTINGS
+// ============================
+function saveSettings(){
+  const name = document.getElementById('userName')?.value || 'User';
+  const time = document.getElementById('reminderTime')?.value || '08:00';
+  state.settings.name = name;
+  state.settings.reminderTime = time;
+  saveState();
+}
+
+function toggleTheme(){
+  state.settings.dark = !state.settings.dark;
+  document.documentElement.setAttribute('data-theme', state.settings.dark?'dark':'');
+  saveState();
+  render();
+}
+
+function toggleReminder(){
+  state.settings.reminder = !state.settings.reminder;
+  document.getElementById('reminderToggle').classList.toggle('on', state.settings.reminder);
+  saveState();
+  if (state.settings.reminder) scheduleReminder();
+}
+
+function requestNotif(){
+  if ('Notification' in window){
+    Notification.requestPermission().then(perm => {
+      showToast(perm==='granted'?'Notifikasi diizinkan ✅':'Notifikasi ditolak','success');
+    });
+  }
+}
+
+function scheduleReminder(){
+  if (!state.settings.reminder) return;
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  const now = new Date();
+  const [h,m] = state.settings.reminderTime.split(':').map(Number);
+  const target = new Date(now);
+  target.setHours(h,m,0,0);
+  if (target <= now) target.setDate(target.getDate()+1);
+  const ms = target - now;
+  setTimeout(() => {
+    new Notification('NeuroFit 365', {
+      body: 'Waktunya latihan 🧠 Otak + ❤️‍🔥 ED! Jangan putus streak!',
+      icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="80" font-size="80">🧠</text></svg>'
+    });
+    scheduleReminder();
+  }, ms);
+}
+
+function resetData(){
+  if (!confirm('Hapus semua data progress? Tindakan ini tidak bisa dibatalkan!')) return;
+  state.brain = {};
+  state.ed = {};
+  const d = new Date(); d.setDate(d.getDate()+1); state.startDate = d.toISOString().split('T')[0];
+  saveState();
+  render();
+  showToast('Data berhasil direset','success');
+}
+
+function exportData(silent){
+  const data = {
+    version: '2.0',
+    exportedAt: new Date().toISOString(),
+    startDate: state.startDate,
+    brain: state.brain,
+    ed: state.ed,
+    settings: { name: state.settings.name, reminderTime: state.settings.reminderTime }
+  };
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `NeuroFit365_backup_${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  if (!silent) showToast('Data berhasil di-download ✅','success');
+}
+
+function showToast(msg, type=''){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show '+(type||'');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ============================
+// INIT
+// ============================
+function init(){
+  migrateData();
+  if (state.settings.dark) document.documentElement.setAttribute('data-theme','dark');
+  document.getElementById('reminderToggle').classList.toggle('on', state.settings.reminder);
+  document.getElementById('reminderTime').value = state.settings.reminderTime;
+  document.getElementById('userName').value = state.settings.name;
+  render();
+  if (state.settings.reminder) scheduleReminder();
+  showToast('🧠 NeuroFit 365 siap! Semangat latihan!');
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
